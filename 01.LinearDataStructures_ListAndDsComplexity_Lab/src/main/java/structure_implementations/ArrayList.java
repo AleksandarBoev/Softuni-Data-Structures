@@ -2,7 +2,7 @@ package structure_implementations;
 
 import structure_contracts.MyList;
 
-public class MyArrayList<T> implements MyList<T> {
+public class ArrayList<T> implements MyList<T> {
     public static final String OUT_OF_BOUNDS_MESSAGE = "Invalid index";
     public static final int INITIAL_CAPACITY = 2;
     private static final int CAPACITY_MULTIPLIER = 2;
@@ -10,11 +10,11 @@ public class MyArrayList<T> implements MyList<T> {
     private int count;
     private T[] data;
 
-    public MyArrayList() {
+    public ArrayList() {
         this(INITIAL_CAPACITY);
     }
 
-    public MyArrayList(int initialCapacity) {
+    public ArrayList(int initialCapacity) {
         count = 0;
         data = (T[])new Object[initialCapacity];
     }

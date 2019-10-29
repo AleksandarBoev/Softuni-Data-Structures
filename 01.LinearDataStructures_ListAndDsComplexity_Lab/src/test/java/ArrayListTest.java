@@ -2,9 +2,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import structure_contracts.MyList;
-import structure_implementations.MyArrayList;
+import structure_implementations.ArrayList;
 
-public class MyArrayListTest {
+public class ArrayListTest {
     private static final Integer FIRST_ADD = 5;
     private static final Integer SECOND_ADD = 10;
     private static final Integer THIRD_ADD = 10;
@@ -13,7 +13,7 @@ public class MyArrayListTest {
 
     @Before
     public void init() throws NoSuchFieldException, IllegalAccessException {
-        myList = new MyArrayList<>();
+        myList = new ArrayList<>();
     }
 
     @Test
@@ -43,7 +43,7 @@ public class MyArrayListTest {
 
     @Test
     public void addElement_whenAddingMoreElementsThanCapacity_expectNoErrors() {
-        for (int i = 0; i <= MyArrayList.INITIAL_CAPACITY + 1; i++) {
+        for (int i = 0; i <= ArrayList.INITIAL_CAPACITY + 1; i++) {
             myList.add(0);
         }
     }
