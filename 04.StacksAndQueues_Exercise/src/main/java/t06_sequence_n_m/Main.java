@@ -3,10 +3,7 @@ package t06_sequence_n_m;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -45,7 +42,7 @@ public class Main {
 
     private static String getOutput(Node shortestDistanceNode) {
         StringBuilder sb = new StringBuilder();
-        ArrayDeque<Integer> numbersStack = new ArrayDeque<>(); //to have the numbers in correct order
+        Deque<Integer> numbersStack = new ArrayDeque<>(); //to have the numbers in correct order
         while (shortestDistanceNode != null) {
             numbersStack.addFirst(shortestDistanceNode.value);
             shortestDistanceNode = shortestDistanceNode.prev;

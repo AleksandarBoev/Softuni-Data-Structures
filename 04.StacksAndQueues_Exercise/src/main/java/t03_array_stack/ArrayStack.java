@@ -1,10 +1,10 @@
-package t03_array_stack;
+//package t03_array_stack;
 
-import stack_interface.Stack;
+//import stack_interface.Stack;
 
 import java.util.Arrays;
 
-public class ArrayStack<T> implements Stack<T> {
+public class ArrayStack<T> /*implements Stack<T>*/ {
     private static final int INITIAL_CAPACITY = 16;
     private static final String EMPTY_DATA_STRUCTURE_MESSAGE = "Data structure is empty!";
 

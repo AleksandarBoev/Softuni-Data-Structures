@@ -2,8 +2,6 @@ package t04_linked_stack;
 
 import stack_interface.Stack;
 
-import java.util.Objects;
-
 public class LinkedStack<E> implements Stack<E> {
     private static final String EMPTY_DATA_STRUCTURE_MESSAGE = "Data structure is empty!";
 
