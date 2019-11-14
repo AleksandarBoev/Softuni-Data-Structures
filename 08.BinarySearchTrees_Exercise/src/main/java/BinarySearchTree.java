@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class BinarySearchTree<T extends Comparable<T>> {
@@ -28,9 +30,10 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     public int getNodesCount() {
-        throw new UnsupportedOperationException();
+        return nodesCount;
     }
 
+    //TODO found a bug in the provided by the lecturers code. parent.childrenCount++ executes even when value.compareTo(current.value) == 0
     public void insert(T value) {
         this.nodesCount++;
 
@@ -164,7 +167,25 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     public void deleteMax() {
-        throw new UnsupportedOperationException();
+        if (root == null) {
+            throw new IllegalArgumentException();
+        }
+
+        nodesCount--;
+        Node current = root;
+        Node parent = null;
+
+        while (current.right != null) {
+            current.childrenCount--;
+            parent = current;
+            current = current.right;
+        }
+
+        if (parent == null) {
+            root = root.left;
+        } else {
+            parent.right = current.left;
+        }
     }
 
     public T ceil(T element) {
@@ -180,12 +201,60 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     public int rank(T item) {
-        throw new UnsupportedOperationException();
+        return rank(item, root, 0);
     }
 
-    public T select(int n) {
-        throw new UnsupportedOperationException();
+    private int rank(T item, Node node, int counter) {
+        if (node == null) {
+            return counter;
+        }
+
+        int comparisonResult = item.compareTo(node.value);
+
+        if (comparisonResult < 0) { // item < node.value
+            return rank(item, node.left, counter);
+        } else if (comparisonResult > 0) { // item > node.value
+            counter++;
+            if (node.left != null) {
+                counter += node.left.childrenCount;
+            }
+
+            return rank(item, node.right, counter);
+        } else {
+            if (node.left != null) {
+                counter += node.left.childrenCount;
+            }
+
+            return counter;
+        }
     }
+
+    /*
+        Using rank is not the optimal solution here. Iterating through the items in preOrder
+        means values will be sorted in ascending. So the element, which will have "n" smaller elements will
+        just be the "n + 1" element in a collection of these elements.
+     */
+    public T select(int n) {
+        List<T> arrayList = new ArrayList<>();
+        preOrderItems(root, n + 1, arrayList);
+        return arrayList.get(arrayList.size() - 1);
+    }
+
+    private void preOrderItems(Node node, int numberOfItems, List<T> list) {
+        if (node == null) {
+            return;
+        }
+
+        preOrderItems(node.left, numberOfItems, list);
+
+        if (list.size() == numberOfItems) {
+            return;
+        }
+        list.add(node.value);
+
+        preOrderItems(node.right, numberOfItems, list);
+    }
+
 
     class Node {
         private T value;
