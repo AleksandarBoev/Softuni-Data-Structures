@@ -189,15 +189,96 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     public T ceil(T element) {
-        throw new UnsupportedOperationException();
+        if (root == null) {
+            return null;
+        }
+
+        List<T> reverseInOrder = new ArrayList<>();
+        ceilReverseInOrder(root, element, reverseInOrder);
+        if (reverseInOrder.isEmpty()) {
+            return null;
+        } else {
+            return reverseInOrder.get(reverseInOrder.size() - 1);
+        }
+    }
+
+    /*
+    Elements in reverse inOrder are descending in value. So when the current element is >= than the provided, it is added to the collection.
+    The lastly added element is the closest to the given element.
+    */
+    private void ceilReverseInOrder(Node node, T value, List<T> list) {
+        if (node == null) {
+            return;
+        }
+
+        ceilReverseInOrder(node.right, value, list);
+
+        if (node.value.compareTo(value) >= 0) {
+            list.add(node.value);
+            // if node.value is smaller than value, then the node.left is 100% smaller too, so no need to go there
+            ceilReverseInOrder(node.left, value, list);
+        }
     }
 
     public T floor(T element) {
-        throw new UnsupportedOperationException();
+        if (root == null) {
+            throw new IllegalArgumentException("Binary search tree is empty!");
+        }
+
+        List<T> inOrderElements = new ArrayList<>();
+        floorInOrder(root, element, inOrderElements);
+        if (inOrderElements.isEmpty()) {
+            return null;
+        } else {
+            return inOrderElements.get(inOrderElements.size() - 1);
+        }
+    }
+
+    /*
+    Elements in inOrder are ascending in value. So when the current element is <= than the provided, it is added to the collection.
+    The lastly added element is the closest to the given element.
+     */
+    private void floorInOrder(Node node, T value, List<T> list) {
+        if (node == null) {
+            return;
+        }
+
+        floorInOrder(node.left, value, list);
+
+        if (node.value.compareTo(value) <= 0) {
+            list.add(node.value);
+            // if node.value is bigger than value, then the node.right is 100% bigger too, so no need to go there
+            floorInOrder(node.right, value, list);
+        }
     }
 
     public void delete(T key) {
-        throw new UnsupportedOperationException();
+        List<T> values = new ArrayList<>();
+        Node current = root;
+
+    }
+
+    private void fillCollectionWithNodeChildren(Node node, T value, List<T> values) {
+        if (node == null || !values.isEmpty()) {
+            return;
+        }
+
+        fillCollectionWithNodeChildren(node, value, values);
+        if (node.value.compareTo(value) == 0) {
+            fillCollectionWithNodeChildren(node, values);
+            return;
+        }
+        //TODO how to do the children count on the parent?
+        fillCollectionWithNodeChildren(node, value, values);
+    }
+
+    private void fillCollectionWithNodeChildren(Node node, List<T> values) {
+        if (node == null) {
+            return;
+        }
+        values.add(node.value);
+        fillCollectionWithNodeChildren(node.left, values);
+        fillCollectionWithNodeChildren(node.right, values);
     }
 
     public int rank(T item) {
@@ -230,29 +311,29 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     /*
-        Using rank is not the optimal solution here. Iterating through the items in preOrder
+        Using rank is not the optimal solution here. Iterating through the items in inOrder
         means values will be sorted in ascending. So the element, which will have "n" smaller elements will
         just be the "n + 1" element in a collection of these elements.
      */
     public T select(int n) {
         List<T> arrayList = new ArrayList<>();
-        preOrderItems(root, n + 1, arrayList);
+        selectInOrder(root, n + 1, arrayList);
         return arrayList.get(arrayList.size() - 1);
     }
 
-    private void preOrderItems(Node node, int numberOfItems, List<T> list) {
+    private void selectInOrder(Node node, int numberOfItems, List<T> list) {
         if (node == null) {
             return;
         }
 
-        preOrderItems(node.left, numberOfItems, list);
+        selectInOrder(node.left, numberOfItems, list);
 
         if (list.size() == numberOfItems) {
             return;
         }
         list.add(node.value);
 
-        preOrderItems(node.right, numberOfItems, list);
+        selectInOrder(node.right, numberOfItems, list);
     }
 
 

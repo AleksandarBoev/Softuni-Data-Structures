@@ -406,6 +406,7 @@ public class BinarySearchTreeTests {
         Assert.assertEquals(null, floor);
     }
 
+
     @Test
     public void testFloor2_shouldWorkCorrectly() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>();
