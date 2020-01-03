@@ -45,7 +45,7 @@ public class BinaryHeap<T extends Comparable<T>> { // Max heap implementation (p
             return;
         }
 
-        T element = heap.get(0);
+        T element = heap.get(elementIndex);
         int leftChildIndex = getLeftChildIndex(elementIndex);
         int rightChildIndex = getRightChildIndex(elementIndex);
 
