@@ -9,5 +9,11 @@ public class Main {
         redBlackTree.insert(48);
         redBlackTree.insert(60);
         redBlackTree.insert(80);
+        redBlackTree.insert(4);
+        redBlackTree.insert(3);
     }
+
+    //37 - 7
+    // 12, 60 - 3
+    // 5, 18, 48, 80 - 1
 }

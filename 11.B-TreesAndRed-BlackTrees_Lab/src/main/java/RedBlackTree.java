@@ -10,6 +10,12 @@ public class RedBlackTree<T extends Comparable<T>> {
     3) No node has two red links connected to it
     4) Every path from a given node to its descendant leaf nodes contains the same number of black nodes
     5) Red links lean left (only left nodes can be red. Right nodes can't)
+
+    To additionally check if things work properly, visit here: https://www.cs.usfca.edu/~galles/visualization/BTree.html
+    Red-black tree is equivalent to 2-3 tree. When [ x | y ] then x is red and y is black. And in this case if
+                                                    /  |  \
+                                                   w   t   z
+     then "w" is left child of "x", "t" is right child of "x" and "z" is right child of "y"
      */
 
     private static final boolean RED = true;
@@ -50,7 +56,7 @@ public class RedBlackTree<T extends Comparable<T>> {
     }
 
     private Node insert(T value, Node currentNode) {
-        if (currentNode == null) {
+        if (currentNode == null) { // bottom of recursion
             Node newNode = new Node(value);
             return newNode;
         }
@@ -61,31 +67,64 @@ public class RedBlackTree<T extends Comparable<T>> {
             currentNode.setRight(insert(value, currentNode.getRight()));
         }
 
-        if (rightChildIsRedAndleftChildIsBlack(currentNode)) { // rule 5)
+        if (valueCurrentNodeValueComparisonResult < 0) {
+            currentNode.setLeft(insert(value, currentNode.getLeft()));
+        }
+
+        if (rightChildIsRedAndLeftChildIsBlack(currentNode)) { // rule 5)
             currentNode = leftRotation(currentNode);
+        }
+
+        if (leftChildIsRedAndItsLeftChildIsRed(currentNode)) { // beats the purpose of 2-3 tree
+            currentNode = rightRotation(currentNode);
         }
 
         if (bothChildrenAreRed(currentNode)) {
             flipColors(currentNode);
         }
 
+        updateChildren(currentNode);
         return currentNode;
+    }
+
+    private boolean rightChildIsRedAndLeftChildIsBlack(Node currentNode) {
+        return isRed(currentNode.getRight()) && !isRed(currentNode.getLeft());
     }
 
     private Node leftRotation(Node currentNode) {
         Node subTree = currentNode.getRight(); // is now right node
+
         currentNode.setRight(subTree.getLeft());
         subTree.setLeft(currentNode);
 
         subTree.color = BLACK;
         currentNode.color = RED;
 
+        updateChildren(currentNode);
+        updateChildren(subTree);
+
         return subTree;
     }
 
-    private boolean rightChildIsRedAndleftChildIsBlack(Node currentNode) {
-        return isRed(currentNode.getRight()) && !isRed(currentNode.getLeft());
+    private boolean leftChildIsRedAndItsLeftChildIsRed(Node currentNode) {
+        return isRed(currentNode.getLeft()) && isRed(currentNode.getLeft().getLeft());
     }
+
+    private Node rightRotation(Node currentNode) {
+        Node subTree = currentNode.getLeft();
+
+        currentNode.setLeft(subTree.getRight());
+        subTree.setRight(currentNode);
+
+        subTree.color = BLACK;
+        currentNode.color = RED;
+
+        updateChildren(currentNode);
+        updateChildren(subTree);
+
+        return subTree;
+    }
+
 
     private boolean bothChildrenAreRed(Node currentNode) {
         return isRed(currentNode.getRight()) && isRed(currentNode.getLeft());
@@ -100,6 +139,18 @@ public class RedBlackTree<T extends Comparable<T>> {
         } else {
             return true;
         }
+    }
+
+    private int getChildrenCount(Node node) {
+        if (node == null) {
+            return 0;
+        }
+
+        return node.childrenCount;
+    }
+
+    private void updateChildren(Node node) {
+        node.childrenCount = 1 + getChildrenCount(node.getLeft()) + getChildrenCount(node.getRight());
     }
 
     /**
