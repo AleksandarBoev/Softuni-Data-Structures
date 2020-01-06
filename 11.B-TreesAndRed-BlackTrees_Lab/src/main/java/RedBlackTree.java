@@ -3,6 +3,18 @@ import java.util.LinkedList;
 import java.util.function.Consumer;
 
 public class RedBlackTree<T extends Comparable<T>> {
+    /*
+    Red-black tree rules:
+    1) All leaves are black
+    2) The root is black
+    3) No node has two red links connected to it
+    4) Every path from a given node to its descendant leaf nodes contains the same number of black nodes
+    5) Red links lean left (only left nodes can be red. Right nodes can't)
+     */
+
+    private static final boolean RED = true;
+    private static final boolean BLACK = false;
+
     private Node root;
     private int nodesCount;
 
@@ -32,34 +44,71 @@ public class RedBlackTree<T extends Comparable<T>> {
     }
 
     public void insert(T value) {
-        this.nodesCount++;
+        nodesCount++;
+        root = insert(value, root);
+        root.color = BLACK; // root must always remain black, rule 2)
+    }
 
-        if (this.root == null) {
-            this.root = new Node(value);
-            return;
+    private Node insert(T value, Node currentNode) {
+        if (currentNode == null) {
+            Node newNode = new Node(value);
+            return newNode;
         }
 
-        Node parent = null;
-        Node current = this.root;
-        while (current != null) {
-            parent = current;
-            parent.childrenCount++;
+        int valueCurrentNodeValueComparisonResult = value.compareTo(currentNode.value);
 
-            if (value.compareTo(current.value) < 0) {
-                current = current.left;
-            } else if (value.compareTo(current.value) > 0) {
-                current = current.right;
-            } else {
-                return;
-            }
+        if (valueCurrentNodeValueComparisonResult > 0) { // value is bigger --> it will be a right child of current node
+            currentNode.setRight(insert(value, currentNode.getRight()));
         }
 
-        Node newNode = new Node(value);
-        if (value.compareTo(parent.value) < 0) {
-            parent.left = newNode;
+        if (rightChildIsRedAndleftChildIsBlack(currentNode)) { // rule 5)
+            currentNode = leftRotation(currentNode);
+        }
+
+        if (bothChildrenAreRed(currentNode)) {
+            flipColors(currentNode);
+        }
+
+        return currentNode;
+    }
+
+    private Node leftRotation(Node currentNode) {
+        Node subTree = currentNode.getRight(); // is now right node
+        currentNode.setRight(subTree.getLeft());
+        subTree.setLeft(currentNode);
+
+        subTree.color = BLACK;
+        currentNode.color = RED;
+
+        return subTree;
+    }
+
+    private boolean rightChildIsRedAndleftChildIsBlack(Node currentNode) {
+        return isRed(currentNode.getRight()) && !isRed(currentNode.getLeft());
+    }
+
+    private boolean bothChildrenAreRed(Node currentNode) {
+        return isRed(currentNode.getRight()) && isRed(currentNode.getLeft());
+    }
+
+    /**
+     * @return if "null" or "BLACK" then return false. If not - return true
+     */
+    private boolean isRed(Node node) {
+        if (node == null || node.color == BLACK) {
+            return false;
         } else {
-            parent.right = newNode;
+            return true;
         }
+    }
+
+    /**
+     * Makes red colors black and black colors - red. Applies this change to "currentNode" and its direct children.
+     */
+    private void flipColors(Node currentNode) {
+        currentNode.color = !currentNode.color;
+        currentNode.getRight().color = !currentNode.getRight().color;
+        currentNode.getLeft().color = !currentNode.getLeft().color;
     }
 
     public boolean contains(T value) {
@@ -282,10 +331,12 @@ public class RedBlackTree<T extends Comparable<T>> {
         private Node right;
 
         private int childrenCount;
+        private boolean color;
 
         public Node(T value) {
             this.value = value;
-            this.childrenCount = 1;
+            childrenCount = 1; // counting itself
+            color = RED;
         }
 
         public T getValue() {
@@ -313,52 +364,10 @@ public class RedBlackTree<T extends Comparable<T>> {
         }
 
         @Override
-        public String toString() {
+        public String toString() { //helps with debugging
             return this.value + "";
         }
     }
 }
-
-//    public T ceil(T element) {
-//        return ceil(this.root, element);
-//    }
-//
-//    private T ceil(Node node, T input) {
-//        if (node == null) {
-//            return null;
-//        }
-//
-//        if (node.value == input) {
-//            return node.value;
-//        }
-//
-//        if (node.value.compareTo(input) < 0) {
-//            return ceil(node.right, input);
-//        }
-//
-//        T ceil = ceil(node.left, input);
-//        return (ceil != null) ? ceil : node.value;
-//    }
-//
-//    public T floor(T element) {
-//        return floor(this.root, element);
-//    }
-//
-//    private T floor(Node node, T input) {
-//        if (node == null) {
-//            return null;
-//        }
-//
-//        if (node.value == input) {
-//            return node.value;
-//        }
-//
-//        if (node.value.compareTo(input) > 0) {
-//            return floor(node.left, input);
-//        }
-//
-//        T floor = floor(node.right, input);
-//        return (floor != null) ? floor : node.value;
-//    }
 
 
