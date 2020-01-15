@@ -1,3 +1,5 @@
+package trie;
+
 import java.util.*;
 
 public class Trie<Value> {
@@ -23,7 +25,8 @@ public class Trie<Value> {
     }
 
     public void insert(String key, Value value) { // like inserting a kvp into a map
-        /*this.root = */this.insert(this.root, key, value, 0); //"this.root = ..." is provided in skeleton but is kind of useless imo
+        /*this.root = */
+        this.insert(this.root, key, value, 0); //"this.root = ..." is provided in skeleton but is kind of useless imo
     }
 
     public Iterable<String> getByPrefix(String prefix) { // like autocomplete. Returns all words which start with given prefix
@@ -32,6 +35,10 @@ public class Trie<Value> {
 
         this.collect(node, prefix, result);
         return reverseCollection(result);
+    }
+
+    public void remove(String key) {
+        remove(root, key, 0, new BooleanWrapper());
     }
 
     private void collect(Node node, String prefix, Deque<String> result) {
@@ -91,6 +98,48 @@ public class Trie<Value> {
         return result;
     }
 
+    /*
+   To delete a key, every character along the way needs to be deleted. And since the nodes are stored
+   in a Map<Character, Node> then they need to be deleted from those maps.
+
+   A node should NOT be deleted in these cases:
+   1) It it has children characters. That means another key is using the current character and all its parent characters.
+   Example 1: "Pesho", "Peshoslav". "Pesho" is to be deleted. But all its letters are included in another key. Only thing to
+   do is make the "o" non-terminal.
+   Example 2: "Pesho", "Petar". "Pesho" is to be deleted. "o", "h", "s" are deleted, but "e" has more than 1 child character,
+   which means it is included in another key. So the deletion should stop.
+   2) In the process of deletion of all the characters, a terminal node is found. It should NOT be deleted.
+   Example: "Pesho", "Pe". "Pesho" is to be deleted. "o", "h", "s" should be removed, but "e" should stay, because it is
+   part of a different key.
+    */
+    private void remove(Node node, String key, int v, BooleanWrapper delete) {
+        if (v == key.length() && node.isTerminal) { // last symbol of key to be deleted is found
+            node.setTerminal(false);
+
+            if (node.getNext().isEmpty()) {
+                delete.setValue(true);
+            }
+
+            return;
+        }
+
+        char c = key.charAt(v);
+        remove(node.getNext().get(c), key, v + 1, delete);
+
+        if (delete.getValue() == true) {
+            if (node.getNext().size() == 1 && !node.getNext().get(c).isTerminal()) { //if there is only one next element and it is not terminal
+                node.getNext().remove(c);
+            } else if (!node.getNext().get(c).isTerminal()) { //current letter has more than one children --> delete the specified child and stop deletion process
+                node.getNext().remove(c);
+                delete.setValue(false);
+            } else {
+                delete.setValue(false); // stop recursive deletion process
+            }
+
+            return;
+        }
+    }
+
     private class Node {
         private Value value;
         private boolean isTerminal;
@@ -118,6 +167,31 @@ public class Trie<Value> {
 
         public Map<Character, Node> getNext() {
             return this.next;
+        }
+    }
+
+    /**
+     * Only purpose is to pass boolean by reference in the recursive calls in "delete" method.
+     */
+    private class BooleanWrapper {
+        Boolean[] booleanObject;
+
+        public BooleanWrapper() {
+            booleanObject = new Boolean[1];
+            booleanObject[0] = false;
+        }
+
+        public void setValue(Boolean value) {
+            booleanObject[0] = value;
+        }
+
+        public Boolean getValue() {
+            return booleanObject[0];
+        }
+
+        @Override
+        public String toString() {
+            return "" + getValue();
         }
     }
 }
