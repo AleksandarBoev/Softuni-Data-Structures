@@ -13,7 +13,7 @@ public class Trie<Value> {
         Node result = this.getNode(this.root, key, 0);
 
         if (result == null || !result.isTerminal()) {
-            throw new IllegalArgumentException();
+            return null;
         }
 
         return result.getValue();
@@ -113,10 +113,15 @@ public class Trie<Value> {
    part of a different key.
     */
     private void remove(Node node, String key, int v, BooleanWrapper delete) {
+        if (node == null) {
+            return;
+        }
+
         if (v == key.length() && node.isTerminal) { // last symbol of key to be deleted is found
             node.setTerminal(false);
+            node.setValue(null);
 
-            if (node.getNext().isEmpty()) {
+            if (node.getNext().isEmpty()) { // if the terminal node is a leaf, start deleting symbols recursively
                 delete.setValue(true);
             }
 

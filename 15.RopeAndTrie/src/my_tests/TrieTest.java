@@ -64,4 +64,9 @@ public class TrieTest {
         Assert.assertFalse(trie.contains("Pesho"));
         Assert.assertTrue(trie.contains("Gosho"));
     }
+
+    @Test
+    public void remove_whenRemovingNonExistingElement_nothingHappens() {
+        trie.remove("Pesho");
+    }
 }
