@@ -98,6 +98,21 @@ public class HashTable<TKey, TValue> implements Iterable<KeyValue<TKey, TValue>>
             }
         }
 
+        //Solution 2
+        /*
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == null) {
+                continue;
+            }
+
+            for (var kvp : data[i]) {
+                if (key.equals(kvp.getKey())) {
+                    return kvp;
+                }
+            }
+        }
+         */
+
         return null;
     }
 
@@ -125,6 +140,28 @@ public class HashTable<TKey, TValue> implements Iterable<KeyValue<TKey, TValue>>
             }
         }
 
+        //Solution 2
+        /*
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == null) {
+                continue;
+            }
+
+            for (var kvp : data[i]) {
+                if (key.equals(kvp.getKey())) {
+                    data[i].remove(kvp);
+
+                    if (data[i].isEmpty()) {
+                        data[i] = null;
+                    }
+
+                    size--;
+                    return true;
+                }
+            }
+        }
+         */
+
         return false;
     }
 
@@ -136,11 +173,35 @@ public class HashTable<TKey, TValue> implements Iterable<KeyValue<TKey, TValue>>
     }
 
     public Iterable<TKey> keys() {
-        throw new UnsupportedOperationException();
+        List<TKey> result = new ArrayList<>(size);
+
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == null) {
+                continue;
+            }
+
+            for (var kvp : data[i]) {
+                result.add(kvp.getKey());
+            }
+        }
+
+        return result;
     }
 
     public Iterable<TValue> values() {
-        throw new UnsupportedOperationException();
+        List<TValue> result = new ArrayList<>(size);
+
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == null) {
+                continue;
+            }
+
+            for (var kvp : data[i]) {
+                result.add(kvp.getValue());
+            }
+        }
+
+        return result;
     }
 
     @Override
@@ -167,7 +228,7 @@ public class HashTable<TKey, TValue> implements Iterable<KeyValue<TKey, TValue>>
         } else {
             for (KeyValue<TKey, TValue> kvp : data[index]) {
                 if (kvp.getKey().equals(newKvp.getKey())) {
-                    throw new IllegalArgumentException(DUPLICATE_KEY_ERROR_MESSAGE);
+                    throw new IllegalArgumentException(DUPLICATE_KEY_ERROR_MESSAGE + " " + kvp.getKey());
                 }
             }
         }
