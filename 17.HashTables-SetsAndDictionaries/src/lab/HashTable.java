@@ -1,8 +1,6 @@
 package lab;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class HashTable<TKey, TValue> implements Iterable<KeyValue<TKey, TValue>> {
     private static final String DUPLICATE_KEY_ERROR_MESSAGE = "Key already exists!";
@@ -31,54 +29,6 @@ public class HashTable<TKey, TValue> implements Iterable<KeyValue<TKey, TValue>>
         add(key, value, data);
     }
 
-    private void add(TKey key, TValue value, LinkedList<KeyValue<TKey, TValue>>[] data) {
-        KeyValue<TKey, TValue> newKvp = new KeyValue<>(key, value);
-        int index = getIndex(newKvp);
-
-        if (data[index] == null) {
-            data[index] = new LinkedList<>();
-        } else {
-            for (KeyValue<TKey, TValue> kvp : data[index]) {
-                if (kvp.getKey().equals(newKvp.getKey())) {
-                    throw new IllegalArgumentException(DUPLICATE_KEY_ERROR_MESSAGE);
-                }
-            }
-        }
-
-        if (size + 1 > maxAllowedOccupiedCapacity) {
-            this.data = getResized(); //TODO not really good code here.
-            data = this.data;
-            index = getIndex(newKvp);
-
-            if (data[index] == null) {
-                data[index] = new LinkedList<>();
-            }
-        }
-
-        data[index].add(newKvp);
-        size++;
-    }
-
-    private LinkedList<KeyValue<TKey, TValue>>[] getResized() {
-        capacity *= 2;
-        size = 0;
-        maxAllowedOccupiedCapacity = calculateMaxAllowedOccupiedCapacity();
-        LinkedList<KeyValue<TKey, TValue>>[] newData = new LinkedList[capacity];
-        int a = newData.length;
-
-        for (int i = 0; i < data.length; i++) {
-            if (data[i] == null) {
-                continue;
-            }
-
-            for (KeyValue<TKey, TValue> kvp : data[i]) {
-                add(kvp.getKey(), kvp.getValue(), newData);
-            }
-        }
-
-        return newData;
-    }
-
     public int size() {
         return this.size;
     }
@@ -102,7 +52,7 @@ public class HashTable<TKey, TValue> implements Iterable<KeyValue<TKey, TValue>>
         for (KeyValue<TKey, TValue> kvp : data[index]) {
             if (kvp.getKey().equals(newKvp.getKey())) {
                 kvp.setValue(newKvp.getValue());
-                return false;
+                return false; // do not increment size, since an element was updated, not added
             }
         }
 
@@ -208,6 +158,53 @@ public class HashTable<TKey, TValue> implements Iterable<KeyValue<TKey, TValue>>
         return resultStructure.iterator();
     }
 
+    private void add(TKey key, TValue value, LinkedList<KeyValue<TKey, TValue>>[] data) {
+        KeyValue<TKey, TValue> newKvp = new KeyValue<>(key, value);
+        int index = getIndex(newKvp);
+
+        if (data[index] == null) {
+            data[index] = new LinkedList<>();
+        } else {
+            for (KeyValue<TKey, TValue> kvp : data[index]) {
+                if (kvp.getKey().equals(newKvp.getKey())) {
+                    throw new IllegalArgumentException(DUPLICATE_KEY_ERROR_MESSAGE);
+                }
+            }
+        }
+
+        if (size + 1 > maxAllowedOccupiedCapacity) {
+            this.data = getResized();
+            data = this.data;
+            index = getIndex(newKvp); // getIndex calculates via capacity, so after changing the data with resize, it needs recalculation
+
+            if (data[index] == null) {
+                data[index] = new LinkedList<>();
+            }
+        }
+
+        data[index].add(newKvp);
+        size++;
+    }
+
+    private LinkedList<KeyValue<TKey, TValue>>[] getResized() {
+        capacity *= 2;
+        size = 0;
+        maxAllowedOccupiedCapacity = calculateMaxAllowedOccupiedCapacity();
+        LinkedList<KeyValue<TKey, TValue>>[] newData = new LinkedList[capacity];
+
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == null) {
+                continue;
+            }
+
+            for (KeyValue<TKey, TValue> kvp : data[i]) {
+                add(kvp.getKey(), kvp.getValue(), newData);
+            }
+        }
+
+        return newData;
+    }
+
     private int calculateMaxAllowedOccupiedCapacity() {
         return (int)(capacity * FILL_FACTOR);
     }
@@ -219,20 +216,4 @@ public class HashTable<TKey, TValue> implements Iterable<KeyValue<TKey, TValue>>
     private int getIndex(TKey key) {
         return getIndex(new KeyValue<TKey, TValue>(key, null)); // changed the skeleton hashcode to depend only on key
     }
-//
-//    private final class HashTableIterator implements Iterator<KeyValue<TKey, TValue>> {
-//        private int sizeCounter;
-//        private int capacityCounter;
-//        private LinkedList<KeyValue<TKey, TValue>> currentList;
-//
-//        @Override
-//        public boolean hasNext() {
-//            return sizeCounter + 1 <= size;
-//        }
-//
-//        @Override
-//        public KeyValue<TKey, TValue> next() {
-//
-//        }
-//    }
 }
