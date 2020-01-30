@@ -1,37 +1,77 @@
 package exercise;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class Main {
-    public static void main(String[] args) {
-        /*
-        var products = new TreeMap<BigDecimal, Product>();
+    public static void main(String[] args) throws IOException {
+        ShoppingCentre shoppingCentre = new ShoppingCentreImpl();
+        StringBuilder outputResult = new StringBuilder();
+        BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
-        Product product1 = new Product("Banana", new BigDecimal("2.00"), "Kaufland");
-        Product product2 = new Product("Apple", new BigDecimal("4.00"), "Fantastico");
-        Product product3 = new Product("Apple", new BigDecimal("6.00"), "Fantastico");
-        Product product4 = new Product("Apple", new BigDecimal("8.00"), "Fantastico");
-        Product product5 = new Product("Apple", new BigDecimal("10.00"), "Fantastico");
+        int numberOfInputs = Integer.parseInt(consoleReader.readLine());
 
-        products.put(product1.getPrice(), product1);
-        products.put(product2.getPrice(), product2);
-        products.put(product3.getPrice(), product3);
-        products.put(product4.getPrice(), product4);
-        products.put(product5.getPrice(), product5);
+        for (int i = 0; i < numberOfInputs; i++) {
+            String[] inputTokens = consoleReader.readLine().split(" ", 2);
 
-        String fromPrice = "25.00";
-        String toPrice = "30.00";
-        BigDecimal higherKey = products.higherKey(new BigDecimal(toPrice));
+            switch (inputTokens[0]) {
+                case "AddProduct":
+                    String[] productTokens = inputTokens[1].split(";");
+                    shoppingCentre.addProduct(productTokens[0], new BigDecimal(productTokens[1]), productTokens[2]);
 
-        if (higherKey == null) {
-            System.out.println(products.subMap(new BigDecimal(fromPrice), new BigDecimal(toPrice)));
-        } else {
-            System.out.println(products.subMap(new BigDecimal(fromPrice), higherKey));
+                    outputResult.append("Product added").append(System.lineSeparator());
+                    break;
+
+                case "FindProductsByName":
+                    Iterable<Product> productsByNameFound = shoppingCentre.findProductsByName(inputTokens[1]);
+                    addIterableToOutput(productsByNameFound, outputResult);
+                    break;
+
+                case "FindProductsByProducer":
+                    Iterable<Product> productsFoundByProducer = shoppingCentre.findProductsByProducer(inputTokens[1]);
+                    addIterableToOutput(productsFoundByProducer, outputResult);
+                    break;
+
+                case "FindProductsByPriceRange":
+                    Iterable<Product> productsFoundByPriceRange = shoppingCentre.findProductsByPriceRange(
+                            new BigDecimal(inputTokens[1].split(";")[0]),
+                            new BigDecimal(inputTokens[1].split(";")[1]));
+                    addIterableToOutput(productsFoundByPriceRange, outputResult);
+                    break;
+
+                case "DeleteProducts":
+                    int deletedProductsCount;
+
+                    if (inputTokens[1].contains(";")) {
+                        deletedProductsCount = shoppingCentre.deleteProducts(
+                                inputTokens[1].split(";")[0],
+                                inputTokens[1].split(";")[1]);
+                    } else {
+                        deletedProductsCount = shoppingCentre.deleteProducts(inputTokens[1]);
+                    }
+
+                    if (deletedProductsCount == 0) {
+                        outputResult.append("No products found").append(System.lineSeparator());
+                    } else {
+                        outputResult.append(deletedProductsCount).append(" products deleted").append(System.lineSeparator());
+                    }
+                    break;
+            }
         }
+        consoleReader.close();
 
-         */
+        System.out.println(outputResult.toString());
+    }
+
+    private static void addIterableToOutput(Iterable<Product> products, StringBuilder output) {
+        if (!products.iterator().hasNext()) {
+            output.append("No products found").append(System.lineSeparator());
+        } else {
+            for (Product product : products) {
+                output.append(product.toString()).append(System.lineSeparator());
+            }
+        }
     }
 }

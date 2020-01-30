@@ -1,5 +1,7 @@
 package exercise;
 
+import com.sun.source.tree.Tree;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -64,11 +66,34 @@ public class ShoppingCentreImpl implements ShoppingCentre {
         // (and collection iterated three times). So this way is more efficient (i think)
         for (Product currentProductToDelete : productsToDelete) { // O(N logN), because the collection needs to be iterated
             nameProducts.get(currentProductToDelete.getName()).remove(currentProductToDelete); // O(logN) to find and O(logN) to delete
+            if (nameProducts.get(currentProductToDelete.getName()).isEmpty()) {
+                // if not deleted, then a reference to an empty useless collection will remain and still use memory.
+                // I think this could be considered a memory leak.
+                nameProducts.remove(currentProductToDelete.getName());
+            }
+
             priceProducts.get(currentProductToDelete.getPrice()).remove(currentProductToDelete);
+            if (priceProducts.get(currentProductToDelete.getPrice()).isEmpty()) {
+                priceProducts.remove(currentProductToDelete.getPrice());
+            }
+
             nameProducerProducts
                     .get(currentProductToDelete.getName())
                     .get(currentProductToDelete.getProducer())
                     .remove(currentProductToDelete);
+            if (nameProducerProducts
+                    .get(currentProductToDelete.getName())
+                    .get(currentProductToDelete.getProducer())
+                    .isEmpty()) {
+
+                nameProducerProducts
+                        .get(currentProductToDelete.getName())
+                        .remove(currentProductToDelete.getProducer());
+
+                if (nameProducerProducts.get(currentProductToDelete.getName()).isEmpty()) {
+                    nameProducerProducts.remove(currentProductToDelete.getName());
+                }
+            }
         }
 
         return productsToDelete.size();
@@ -76,7 +101,6 @@ public class ShoppingCentreImpl implements ShoppingCentre {
 
     @Override
     public int deleteProducts(String name, String producer) {
-        //    private HashMap<String, HashMap<String, HashSet<Product>>> nameProducerProducts;
         HashMap<String, HashSet<Product>> producerProducts = nameProducerProducts.get(name);
 
         if (producerProducts == null || producerProducts.isEmpty()) {
@@ -90,6 +114,9 @@ public class ShoppingCentreImpl implements ShoppingCentre {
         }
 
         producerProducts.remove(producer);
+        if (producerProducts.isEmpty()) {
+            nameProducerProducts.remove(name);
+        }
 
         for (Product currentProductToDelete : productsToDelete) {
             this.producerProducts.remove(currentProductToDelete.getProducer());
@@ -112,14 +139,14 @@ public class ShoppingCentreImpl implements ShoppingCentre {
 
     @Override
     public Iterable<Product> findProductsByPriceRange(BigDecimal fromPrice, BigDecimal toPrice) {
-        BigDecimal higherPrice = priceProducts.higherKey(toPrice);
+        BigDecimal oneCentHigherPrice = toPrice.add(new BigDecimal("0.01")); // submap is exclusive on second parameter
 
-        ArrayList<Product> result = new ArrayList<>();
+        TreeSet<Product> result = new TreeSet<>();
         Collection<TreeSet<Product>> products = null;
-        if (higherPrice == null) {
+        if (oneCentHigherPrice == null) {
             products = priceProducts.subMap(fromPrice, toPrice).values();
         } else {
-            products = priceProducts.subMap(fromPrice, higherPrice).values();
+            products = priceProducts.subMap(fromPrice, oneCentHigherPrice).values();
         }
 
         for (TreeSet<Product> productTreeSet : products) {

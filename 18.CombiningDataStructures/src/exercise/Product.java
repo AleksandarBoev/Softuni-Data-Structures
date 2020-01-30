@@ -63,12 +63,14 @@ public class Product implements Comparable<Product>{
             return comparisonResult;
         }
 
-        return Integer.compare(id, product.id); // if all sorting is equal, then they will be ordered ascending by addition in collection
+        // if all sorting is equal, then they will be ordered ascending by addition in collection
+        return Integer.compare(id, product.id);
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode() + price.hashCode() + producer.hashCode() + id; // probably a bad hashcode, will produce clusters and collisions
+        // probably a bad hashcode, will produce clusters and collisions
+        return name.hashCode() + price.hashCode() + producer.hashCode() + id;
     }
 
     @Override
@@ -95,11 +97,6 @@ public class Product implements Comparable<Product>{
     // for easier debugging
     @Override
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", producer='" + producer + '\'' +
-                '}';
+        return String.format("{%s;%s;%.2f}", name, producer, price);
     }
 }
