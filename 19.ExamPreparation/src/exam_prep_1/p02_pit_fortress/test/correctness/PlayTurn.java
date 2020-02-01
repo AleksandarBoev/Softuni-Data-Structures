@@ -13,9 +13,8 @@ import java.util.List;
 
 public class PlayTurn extends BaseTestClass {
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithOneSkipWithNoMines_ShouldNotChangeExistingObjectsCount()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithOneSkipWithNoMines_ShouldNotChangeExistingObjectsCount() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -38,9 +37,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleSkipsWithNoMines_ShouldNotChangeExistingObjectsCount()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleSkipsWithNoMines_ShouldNotChangeExistingObjectsCount() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -73,9 +71,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithOneSkipWithNoMines_ShouldNotChangeExistingObjects()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithOneSkipWithNoMines_ShouldNotChangeExistingObjects() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -100,9 +97,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleSkipsWithNoMines_ShouldNotChangeExistingObjects()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleSkipsWithNoMines_ShouldNotChangeExistingObjects() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -136,9 +132,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleSkipsWithASingleMineWithNoMinionsInRange_ShouldDeleteMineAfterBlowingUp()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleSkipsWithASingleMineWithNoMinionsInRange_ShouldDeleteMineAfterBlowingUp() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
 
         this.PitFortressCollection.setMine("Pesho", 100, 4, 100);
@@ -158,9 +153,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleSkipsWithASingleMineWithNoMinionsInRange_ShouldBlowMineWithoutKillingMinions()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleSkipsWithASingleMineWithNoMinionsInRange_ShouldBlowMineWithoutKillingMinions() {
         this.PitFortressCollection.addPlayer("Stamat", 3);
 
         this.PitFortressCollection.addMinion(10);
@@ -182,9 +176,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleSkipsWithASingleMineWithNoMinionsInRange_SholdNotDamageMinions()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleSkipsWithASingleMineWithNoMinionsInRange_SholdNotDamageMinions() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -208,9 +201,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleSkipsWithAMineDamagingAMinion_ShouldBlowMineAndDamageMinion()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleSkipsWithAMineDamagingAMinion_ShouldBlowMineAndDamageMinion() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -228,23 +220,22 @@ public class PlayTurn extends BaseTestClass {
 
         List<Minion> minions = toList(this.PitFortressCollection.reportMinions());
 
-        Assert.assertEquals(10,  minions.get(0).getX());
-        Assert.assertEquals(1,   minions.get(0).getId());
+        Assert.assertEquals(10, minions.get(0).getX());
+        Assert.assertEquals(1, minions.get(0).getId());
         Assert.assertEquals(100, minions.get(0).getHealth());
 
-        Assert.assertEquals(20,  minions.get(1).getX());
-        Assert.assertEquals(2,   minions.get(1).getId());
+        Assert.assertEquals(20, minions.get(1).getX());
+        Assert.assertEquals(2, minions.get(1).getId());
         Assert.assertEquals(100, minions.get(1).getHealth());
 
         Assert.assertEquals(30, minions.get(2).getX());
-        Assert.assertEquals(3,  minions.get(2).getId());
-        Assert.assertEquals(1,  minions.get(2).getHealth());
+        Assert.assertEquals(3, minions.get(2).getId());
+        Assert.assertEquals(1, minions.get(2).getHealth());
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleSkipsWithAMineDamagingAMinion_ShouldNotChangePlayersScore()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleSkipsWithAMineDamagingAMinion_ShouldNotChangePlayersScore() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -269,9 +260,8 @@ public class PlayTurn extends BaseTestClass {
 
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithAMineKillingAMinion_ShouldDeleteCorrectMinion()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithAMineKillingAMinion_ShouldDeleteCorrectMinion() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -289,19 +279,18 @@ public class PlayTurn extends BaseTestClass {
 
         Assert.assertEquals(2, minions.size());
 
-        Assert.assertEquals(10,  minions.get(0).getX());
-        Assert.assertEquals(1,   minions.get(0).getId());
+        Assert.assertEquals(10, minions.get(0).getX());
+        Assert.assertEquals(1, minions.get(0).getId());
         Assert.assertEquals(100, minions.get(0).getHealth());
 
-        Assert.assertEquals(20,  minions.get(1).getX());
-        Assert.assertEquals(2,   minions.get(1).getId());
+        Assert.assertEquals(20, minions.get(1).getX());
+        Assert.assertEquals(2, minions.get(1).getId());
         Assert.assertEquals(100, minions.get(1).getHealth());
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithKillingAMinionWith2Mines_ShouldDeleteCorrectMinion()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithKillingAMinionWith2Mines_ShouldDeleteCorrectMinion() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -323,19 +312,18 @@ public class PlayTurn extends BaseTestClass {
 
         Assert.assertEquals(2, minions.size());
 
-        Assert.assertEquals(10,  minions.get(0).getX());
-        Assert.assertEquals(1,   minions.get(0).getId());
+        Assert.assertEquals(10, minions.get(0).getX());
+        Assert.assertEquals(1, minions.get(0).getId());
         Assert.assertEquals(100, minions.get(0).getHealth());
 
-        Assert.assertEquals(20,  minions.get(1).getX());
-        Assert.assertEquals(2,   minions.get(1).getId());
+        Assert.assertEquals(20, minions.get(1).getX());
+        Assert.assertEquals(2, minions.get(1).getId());
         Assert.assertEquals(100, minions.get(1).getHealth());
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithAMineKillingAMinion_ShouldChangePlayerScore()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithAMineKillingAMinion_ShouldChangePlayerScore() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -367,9 +355,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithKillingAMinionWith2Mines_ShouldRaiseKillingMinesPlayesScore()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithKillingAMinionWith2Mines_ShouldRaiseKillingMinesPlayesScore() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Gosho", 2);
         this.PitFortressCollection.addPlayer("Stamat", 3);
@@ -402,9 +389,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithAMinionOnTheEdgeOfMinesRange_ShouldHitMinion()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithAMinionOnTheEdgeOfMinesRange_ShouldHitMinion() {
         this.PitFortressCollection.addPlayer("Dimcho", 5);
         this.PitFortressCollection.addPlayer("Domcho", 6);
         this.PitFortressCollection.addPlayer("Dumcho", 7);
@@ -427,9 +413,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleMinionsInMinesRange_ShouldHitAllOfThem()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleMinionsInMinesRange_ShouldHitAllOfThem() {
         this.PitFortressCollection.addPlayer("Domcho", 100);
 
         this.PitFortressCollection.addMinion(0);
@@ -465,9 +450,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleMinesWithDifferentDelays_ShouldBlowThemAtCorrectTurns()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleMinesWithDifferentDelays_ShouldBlowThemAtCorrectTurns() {
         this.PitFortressCollection.addPlayer("Dimcho", 10);
         this.PitFortressCollection.addPlayer("Domcho", 20);
         this.PitFortressCollection.addPlayer("Dumcho", 30);
@@ -554,9 +538,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithASingleSkip_ShouldCorrectlyReduceMineDelays()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithASingleSkip_ShouldCorrectlyReduceMineDelays() {
         this.PitFortressCollection.addPlayer("X", 10);
         this.PitFortressCollection.addPlayer("Y", 20);
         this.PitFortressCollection.addPlayer("Z", 30);
@@ -577,9 +560,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleSkips_ShouldCorrectlyReduceMineDelays()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleSkips_ShouldCorrectlyReduceMineDelays() {
         this.PitFortressCollection.addPlayer("X", 10);
         this.PitFortressCollection.addPlayer("Y", 20);
         this.PitFortressCollection.addPlayer("Z", 30);
@@ -604,9 +586,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithTwoMinesWithSameDelay_ShouldExplodeTheOneWithSmallerIdFirst()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithTwoMinesWithSameDelay_ShouldExplodeTheOneWithSmallerIdFirst() {
         this.PitFortressCollection.addPlayer("X", 10);
         this.PitFortressCollection.addPlayer("Y", 20);
         this.PitFortressCollection.addPlayer("Z", 30);
@@ -637,9 +618,8 @@ public class PlayTurn extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithMultipleMinesWithSameDelay_ShouldExplodeAll()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithMultipleMinesWithSameDelay_ShouldExplodeAll() {
         this.PitFortressCollection.addPlayer("X", 10);
         this.PitFortressCollection.addPlayer("Y", 20);
         this.PitFortressCollection.addPlayer("Z", 30);
@@ -659,13 +639,12 @@ public class PlayTurn extends BaseTestClass {
 
         mines = toList(this.PitFortressCollection.getMines());
 
-        Assert.assertEquals(0,mines.size());
+        Assert.assertEquals(0, mines.size());
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessPlayTurn_WithAMineWith0Damage_ShouldNotDamageMinion()
-    {
+    @Test
+    public void CorrectnessPlayTurn_WithAMineWith0Damage_ShouldNotDamageMinion() {
         this.PitFortressCollection.addPlayer("Z", 30);
 
         this.PitFortressCollection.addMinion(100);

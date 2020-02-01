@@ -1,12 +1,12 @@
 package exam_prep_1.p02_pit_fortress.test.performance;
 
 
-import main.models.Player;
+import exam_prep_1.p02_pit_fortress.main.models.Player;
+import exam_prep_1.p02_pit_fortress.test.BaseTestClass;
+import exam_prep_1.p02_pit_fortress.test.categories.Performance;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import test.BaseTestClass;
-import test.categories.Performance;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class PerformanceTop3Players extends BaseTestClass{
+public class PerformanceTop3Players extends BaseTestClass {
     @Category(Performance.class)
     @Test
     public void PerformanceTop3Players_WithRandomAmounts1() throws FileNotFoundException, IOException {

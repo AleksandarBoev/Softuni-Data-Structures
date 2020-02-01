@@ -1,11 +1,11 @@
 package exam_prep_1.p02_pit_fortress.test.performance;
 
 
+import exam_prep_1.p02_pit_fortress.test.BaseTestClass;
+import exam_prep_1.p02_pit_fortress.test.categories.Performance;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import test.categories.Performance;
-import test.BaseTestClass;
 
 import java.io.*;
 import java.util.ArrayList;

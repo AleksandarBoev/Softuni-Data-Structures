@@ -12,16 +12,14 @@ import java.util.List;
 public class Min3Players extends BaseTestClass {
     @Category(Correctness.class)
 
-            @Test(expected=IllegalArgumentException.class)
-    public void CorrectnessMin3Players_WithoutPlayers_ShouldThrowCorrectException()
-    {
+    @Test(expected = IllegalArgumentException.class)
+    public void CorrectnessMin3Players_WithoutPlayers_ShouldThrowCorrectException() {
         this.PitFortressCollection.min3PlayersByScore();
     }
 
     @Category(Correctness.class)
-            @Test(expected = IllegalArgumentException.class)
-    public void CorrectnessMin3Players_WithLessThan3Players_ShouldThrowCorrectException()
-    {
+    @Test(expected = IllegalArgumentException.class)
+    public void CorrectnessMin3Players_WithLessThan3Players_ShouldThrowCorrectException() {
         this.PitFortressCollection.addPlayer("Acho", 5);
         this.PitFortressCollection.addPlayer("Becho", 5);
 
@@ -29,9 +27,8 @@ public class Min3Players extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessMin3Players_WithValidPlayers_ShouldReturnExactly3Players()
-    {
+    @Test
+    public void CorrectnessMin3Players_WithValidPlayers_ShouldReturnExactly3Players() {
         this.PitFortressCollection.addPlayer("Cecho", 5);
         this.PitFortressCollection.addPlayer("Decho", 5);
         this.PitFortressCollection.addPlayer("Echo", 5);
@@ -44,9 +41,8 @@ public class Min3Players extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessMin3Players_WithMultipleValidPlayers_ShouldReturnCorrectPlayers()
-    {
+    @Test
+    public void CorrectnessMin3Players_WithMultipleValidPlayers_ShouldReturnCorrectPlayers() {
         this.PitFortressCollection.addPlayer("Mr.MMS", 0);
         this.PitFortressCollection.addPlayer("Memory", 1);
         this.PitFortressCollection.addPlayer("Limit", 2);
@@ -70,9 +66,8 @@ public class Min3Players extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessMin3Players_WithThreeeValidPlayers_ShouldReturnCorrectlyRankedPlayers()
-    {
+    @Test
+    public void CorrectnessMin3Players_WithThreeeValidPlayers_ShouldReturnCorrectlyRankedPlayers() {
         this.PitFortressCollection.addPlayer("A", 10);
         this.PitFortressCollection.addPlayer("B", 30);
         this.PitFortressCollection.addPlayer("C", 20);
@@ -93,7 +88,7 @@ public class Min3Players extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
+    @Test
     public void CorrectnessMin3Players_AfterAPlayerKillsAMinion_ShouldReturnCorrectlyRankedPlayers() {
         this.PitFortressCollection.addPlayer("Pesho", 20);
         this.PitFortressCollection.addPlayer("Gosho", 30);
@@ -121,9 +116,8 @@ public class Min3Players extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessMin3Players_AfterMulitplePlayersKillingMultipleMinions_ShouldReturnCorrectlyRankedPlayers()
-    {
+    @Test
+    public void CorrectnessMin3Players_AfterMulitplePlayersKillingMultipleMinions_ShouldReturnCorrectlyRankedPlayers() {
         this.PitFortressCollection.addPlayer("Pesho", 0);
         this.PitFortressCollection.addPlayer("Gosho", 0);
         this.PitFortressCollection.addPlayer("StamatLoveca", 0);

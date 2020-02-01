@@ -11,18 +11,16 @@ import java.util.List;
 
 public class GetMines extends BaseTestClass {
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessGetMines_WithoutMines_ShouldReturnEmptyCollection()
-    {
+    @Test
+    public void CorrectnessGetMines_WithoutMines_ShouldReturnEmptyCollection() {
         List<Mine> mines = toList(this.PitFortressCollection.getMines());
 
         Assert.assertEquals(0, mines.size());
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessGetMines_WithMultipleMines_ShouldReturnCorrectMountOfMines()
-    {
+    @Test
+    public void CorrectnessGetMines_WithMultipleMines_ShouldReturnCorrectMountOfMines() {
         this.PitFortressCollection.addPlayer("Gencho", 13);
         this.PitFortressCollection.setMine("Gencho", 1, 1, 1);
         this.PitFortressCollection.setMine("Gencho", 2, 2, 2);
@@ -36,9 +34,8 @@ public class GetMines extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessGetMines_WithASingleMine_ShouldReturnCorrectMine()
-    {
+    @Test
+    public void CorrectnessGetMines_WithASingleMine_ShouldReturnCorrectMine() {
         this.PitFortressCollection.addPlayer("Gencho", 13);
         this.PitFortressCollection.setMine("Gencho", 20, 20, 20);
 
@@ -54,9 +51,8 @@ public class GetMines extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessGetMines_WithMinesWithDuplicateDelays_ShouldReturnCorrectlySortedMines()
-    {
+    @Test
+    public void CorrectnessGetMines_WithMinesWithDuplicateDelays_ShouldReturnCorrectlySortedMines() {
         this.PitFortressCollection.addPlayer("Poncho", 77);
         this.PitFortressCollection.setMine("Poncho", 77, 77, 88);
         this.PitFortressCollection.setMine("Poncho", 77, 77, 77);
@@ -90,9 +86,8 @@ public class GetMines extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessGetMines_WithSinglePlayerWithMultipleMines_ShouldReturnMinesCorrectlySorted()
-    {
+    @Test
+    public void CorrectnessGetMines_WithSinglePlayerWithMultipleMines_ShouldReturnMinesCorrectlySorted() {
         this.PitFortressCollection.addPlayer("Gencho", 5);
         this.PitFortressCollection.setMine("Gencho", 20, 20, 20);
         this.PitFortressCollection.setMine("Gencho", 100, 5, 30);
@@ -153,9 +148,8 @@ public class GetMines extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnessGetMines_WithMultiplePlayersWithMultipleMines_ShouldReturnMinesCorrectlySorted()
-    {
+    @Test
+    public void CorrectnessGetMines_WithMultiplePlayersWithMultipleMines_ShouldReturnMinesCorrectlySorted() {
         this.PitFortressCollection.addPlayer("Pesho", 1);
         this.PitFortressCollection.addPlayer("Tosho", 2);
         this.PitFortressCollection.addPlayer("Gesho", 3);

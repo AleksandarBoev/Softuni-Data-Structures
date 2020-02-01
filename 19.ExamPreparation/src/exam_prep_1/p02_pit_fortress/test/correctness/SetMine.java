@@ -11,75 +11,66 @@ import java.util.List;
 
 public class SetMine extends BaseTestClass {
     @Category(Correctness.class)
-            @Test(expected = IllegalArgumentException.class)
-    public void CorrectnesSetMine_WithNonExistingPlayer_ShouldThrowCorrectException()
-    {
+    @Test(expected = IllegalArgumentException.class)
+    public void CorrectnesSetMine_WithNonExistingPlayer_ShouldThrowCorrectException() {
         this.PitFortressCollection.setMine("Mr.MMS", 0, 1, 50);
     }
 
     @Category(Correctness.class)
     @Test(expected = IllegalArgumentException.class)
-    public void CorrectnesSetMine_WithNegativeCoordinate_ShouldThrowCorrectException()
-    {
+    public void CorrectnesSetMine_WithNegativeCoordinate_ShouldThrowCorrectException() {
         this.PitFortressCollection.addPlayer("Mr.MMs", 10);
         this.PitFortressCollection.setMine("Mr.MMS", -20, 1, 50);
     }
 
     @Category(Correctness.class)
     @Test(expected = IllegalArgumentException.class)
-    public void CorrectnesSetMine_WithInvalidCoordinate_ShouldThrowCorrectException()
-    {
+    public void CorrectnesSetMine_WithInvalidCoordinate_ShouldThrowCorrectException() {
         this.PitFortressCollection.addPlayer("Mr.MMs", 10);
         this.PitFortressCollection.setMine("Mr.MMS", 2000000, 1, 50);
     }
 
     @Category(Correctness.class)
     @Test(expected = IllegalArgumentException.class)
-    public void CorrectnesSetMine_WithNegativeDelay_ShouldThrowCorrectException()
-    {
+    public void CorrectnesSetMine_WithNegativeDelay_ShouldThrowCorrectException() {
         this.PitFortressCollection.addPlayer("Mr.MMs", 10);
         this.PitFortressCollection.setMine("Mr.MMS", 0, -1, 50);
     }
 
     @Category(Correctness.class)
     @Test(expected = IllegalArgumentException.class)
-    public void CorrectnesSetMine_WithIncorrectDelay_ShouldThrowCorrectException()
-    {
+    public void CorrectnesSetMine_WithIncorrectDelay_ShouldThrowCorrectException() {
         this.PitFortressCollection.addPlayer("Mr.MMs", 10);
         this.PitFortressCollection.setMine("Mr.MMS", 0, 20000, 50);
     }
 
     @Category(Correctness.class)
     @Test(expected = IllegalArgumentException.class)
-    public void CorrectnesSetMine_WithNegativeDamage_ShouldThrowCorrectException()
-    {
+    public void CorrectnesSetMine_WithNegativeDamage_ShouldThrowCorrectException() {
         this.PitFortressCollection.addPlayer("Mr.MMs", 10);
         this.PitFortressCollection.setMine("Mr.MMS", 0, 5, -5);
     }
 
     @Category(Correctness.class)
     @Test(expected = IllegalArgumentException.class)
-    public void CorrectnesSetMine_WithInvalidDamage_ShouldThrowCorrectException()
-    {
+    public void CorrectnesSetMine_WithInvalidDamage_ShouldThrowCorrectException() {
         this.PitFortressCollection.addPlayer("Mr.MMs", 10);
         this.PitFortressCollection.setMine("Mr.MMS", 0, 5, 101);
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnesSetMine_WithValidMine_ShouldIncreaseMineCount()
-    {
+    @Test
+    public void CorrectnesSetMine_WithValidMine_ShouldIncreaseMineCount() {
         this.PitFortressCollection.addPlayer("Jichkata", 10);
         this.PitFortressCollection.setMine("Jichkata", 13, 5, 89);
 
-        Assert.assertEquals(this.PitFortressCollection.getMineCount(),1);
+        Assert.assertEquals(this.PitFortressCollection.getMineCount(), 1);
 
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnesSetMine_WithExistingMines_ShouldIncreaseMineCountCorrectly()
-    {
+    @Test
+    public void CorrectnesSetMine_WithExistingMines_ShouldIncreaseMineCountCorrectly() {
         this.PitFortressCollection.addPlayer("Jichkata", 5);
         this.PitFortressCollection.addPlayer("Pesho", 10);
 
@@ -97,9 +88,8 @@ public class SetMine extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnesSetMine_WithValidMine_ShouldAddCorrectMine()
-    {
+    @Test
+    public void CorrectnesSetMine_WithValidMine_ShouldAddCorrectMine() {
         this.PitFortressCollection.addPlayer("Jichkata", 10);
         this.PitFortressCollection.setMine("Jichkata", 13, 5, 89);
 
@@ -115,9 +105,8 @@ public class SetMine extends BaseTestClass {
     }
 
     @Category(Correctness.class)
-            @Test
-    public void CorrectnesSetMine_MultipleMinesWithMultiplePlayers_ShouldAddCorrectMines()
-    {
+    @Test
+    public void CorrectnesSetMine_MultipleMinesWithMultiplePlayers_ShouldAddCorrectMines() {
         this.PitFortressCollection.addPlayer("Pencho", 1);
         this.PitFortressCollection.addPlayer("Oncho", 2);
         this.PitFortressCollection.addPlayer("Gencho", 3);

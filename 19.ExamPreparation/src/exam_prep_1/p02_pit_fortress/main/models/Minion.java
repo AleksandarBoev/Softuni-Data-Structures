@@ -6,16 +6,14 @@ import exam_prep_1.p02_pit_fortress.main.interfaces.IMinion;
 public class Minion implements IMinion {
     private static final int DEFAULT_MINION_HEALTH = 100;
 
-    private static int idCounter = 1;
-
     private int id;
     private int x;
     private int health;
 
-    public Minion(int x) {
+    public Minion(int id, int x) {
+        this.id = id;
         this.x = x;
         health = DEFAULT_MINION_HEALTH;
-        id = idCounter++;
     }
 
     @Override

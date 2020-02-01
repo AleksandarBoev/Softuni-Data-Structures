@@ -4,7 +4,7 @@ package exam_prep_1.p02_pit_fortress.main.models;
 import exam_prep_1.p02_pit_fortress.main.interfaces.IMine;
 
 public class Mine implements IMine {
-    private static int idCounter = 1;
+//    private static int idCounter = 1;
 
     private int id;
     private int delay;
@@ -12,9 +12,9 @@ public class Mine implements IMine {
     private Player player;
     private int damage;
 
-    public Mine(int delay, int x, Player player, int damage) {
-        id = idCounter++;
-
+    public Mine(int id, int delay, int x, Player player, int damage) {
+//        id = idCounter++;
+        this.id = id;
         this.delay = delay;
         this.x = x;
         this.player = player;
